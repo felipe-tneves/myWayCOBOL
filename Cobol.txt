@@ -1,0 +1,173 @@
+
+COBOL
+
+Vimos que existe processamento com Cobol em ambientes de alta e baixa plataforma;
+Descobrimos que podemos executar/praticar cobol por navegadores ou ambientes instaláveis;
+Instalamos a OpenCOBOL IDE para praticar o curso;
+Estudamos a estrutura padrão e regras de um programa Cobol.
+
+
+Estudamos os tipos e níveis de variáveis usadas em programas cobol;
+Recebemos dados do console (texto ou número) ou do sistema (data);
+Alteramos o modo como o cobol interpreta a separação das casas decimais;
+Formatamos a saída dos dados com máscara de edição.
+
+
+Estudamos o uso dos quatro operadores aritméticos e seus formatos;
+Utilizamos o comando COMPUTE para resolver expressões;
+Configuramos e tratamos variáveis com sinais para valores positivos e negativos.
+
+Aplicamos tratamento e desvio de execução do programa com comando IF;
+Estudamos como aninhar comandos IF, suas vantagens e desvantagens;
+Utilizamos o comando EVALUATE para tratamento de variáveis com múltiplas opções de valores;
+Usamos operadores relacionais para comparações de dois ou mais valores da mesma variável ou de variáveis diferentes.
+
+Estruturamos o código com uso da lógica estruturada e parágrafos;
+Percebemos as vantagens do uso da lógica estruturada;
+Utilizamos o comando PERFORM para desvio de execução do programa.
+
+Aprendemos o uso do comando PERFORM para repetição de rotinas, parágrafos ou seções;
+Estudamos as diferenças entre os formatos de uso do PERFORM;
+Fizemos reaproveitamento de código com comando COPY.
+
+Diferenciamos variável simples e indexada (matriz);
+Criamos variáveis indexadas com o comando OCCURS.
+Redefinimos uma variável por meio de uma outra variável com o comando REDEFINES.
+
+
+Mainframe - alta plataforma de computadores grandes, PROGRAMAS SEMPRE EM LETRA MAIUSCULA 
+Pasta - Particionado ou PDS
+
+Hierarquia de um programa COBOL:
+
+Programa COBOL
+	Division
+		Section
+			Parágraph
+				Sentence
+					Statement
+
+A escrita do COBOL deve obedecer algumas regras de posicionamento:
+
+....|....1....|....2....|....3....|....4....|....5....|....6....|....7....|....
+
+O que é permitido em cada coluna:
+
+Coluna de 1 a 6:	Área livre - Remarks
+Coluna 7:		Área de indicação * comentário
+					  - continuação de linha
+Coluna de 8 a 11:	Área A  divisões, seções, parágrafos, declarações de variáveis
+Coluna de 12 a 72:	Área B comandos
+Coluna de 73 a 80:	Numeração interna do cobol
+
+
+O Cobol possui 4 divisões:
+
+- Identification Division
+- Environment Division
+- Data Division
+- Procedure Division 
+
+Identification Division coluna 08
+	Program-Id.	nome-programa.
+	AUTHOR.		autor.
+
+Environment Division.
+
+Configuration Section.
+Special-Names.
+	Decimal Point Is Comma.
+Input_Output Section.
+File-Control.
+
+Data Division.
+
+File Section.
+Working-Storage Section.
+Linkage Section.
+
+Procedure Division.
+
+100-Parágrafo-A
+	Comando
+	Comando
+	Comando
+	200-Parágrafo-E
+		Comandos
+300-Parágrafos-I.
+	Comandos
+	Comandos
+400-Parágrafo-O.
+	Comando
+	Comando
+	Comando
+	Comandos
+	Comandos
+
+WRK- PREFIXADO UMA VARIAVEL 
+TIPOS DE VARIAVEIS 
+NIVEL 77 - VARIAVEIS DE STRING
+dentro do nivel 77 - data division - working-storage section - variavel
+PIC - A - ALFABETICA 
+PIC X - ALFANUMERICA 
+PIC 9 - NUMERICA 
+S9 - hexadecimal COLOCANDO O S NA FRENTE DO 9 ADICIONA OS SINAIS + OU -
+QUANDO COLOCA Z NA MASCARA ELE OMITE O DIGITO MENOS SIGNIFICARTIVO OU SEJA 009 FICA 9
+
+tamanho da variavel 
+PIC XXX - Tamanho de 3 casas, podemos usar o recurso de PIC X(20) tamanho de 20 posições, pode ser presetada com valores PIC X(20) VALUE SPACES - está preenchida com espaços 
+
+no caso do numerico PIC 9(03) VALUE ZEROS.
+
+
+Code Charactere	Meaning
+Z	This character can be used in the place of 9, whenever you want to display the value to spool/report. It replace all leading zeros with spaces while printing to output. Example: PIC ZZ999.
+$	One $ character code can appear on leftmost position of a picture clause. Example: PIC $99999.
+*	This character is similar to code character Z. This character will replace leading zeros with character *. Example: PIC ****99.
+-	Only one - character can be used in one picture clause. This character can appear either at the leftmost or rightmost position of a picture clause. If value is negative, it will display the — sign. If the value is positive, it will display the space in the place of — sign. Example: PIC -9999. PIC 9999-.
++	This character has the same meaning of — sign. Only difference is it will display the + sign when the value is positive. Note that it will display — sign, when the value is negative. Example: PIC +9999. PIC 9999+.
+. (period)	This character is used to represent decimal position in a numeric value. Example: PIC 9(4).9(2).
+, (comma)	This character code is used to display amount values. Example: PIC ZZZ9,99,99.
+
+
+COMPUTE - USAR QUANDO TIVER ALGUMA EXPRESSÃO 
+
+
+STRING é um comando que serve para concatenar dois ou mais itens em um único, ou alterar o conteúdo de um item.
+
+A estrutura do comando, é:
+
+STRING item-1
+       item-2
+       DELIMITED BY (SIZE ou SPACE)
+       INTO variável-destino
+END-STRING.COPIAR CÓDIGO
+DELIMITED BY delimitador, ou SIZE, ou SPACE: por SIZE, todo o conteúdo será considerado, mas com SPACE será considerado somente o conteúdo até o primeiro espaço encontrado.
+
+Veja um exemplo (sequência de Fibonnaci) utilizando STRING:
+
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+  77 FIB1 PIC 999.
+  77 FIB2 PIC 999.
+  77 FIB3 PIC 999.
+  77 I PIC 99.
+  77 FIBST PIC XXX.
+  77 RES PIC X(64).
+
+PROCEDURE DIVISION.
+  MOVE 0 TO I 
+  MOVE 0 TO FIB1
+  MOVE 1 TO FIB2
+  MOVE SPACES TO RES
+  PERFORM UNTIL I GREATER THAN 15
+        ADD FIB1 TO FIB2 GIVING FIB3
+         MOVE FIB2 TO FIB1
+         MOVE FIB3 TO FIB2
+        MOVE FIB1 TO FIBST
+        STRING RES   DELIMITED BY SPACE
+           FIBST DELIMITED BY SIZE
+           ","   DELIMITED BY SIZE INTO RES
+           ADD 1 TO I
+  END-PERFORM.
+  DISPLAY RES "..."
